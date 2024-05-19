@@ -43,7 +43,9 @@ class ClientController extends Controller
             'verge' => '1.3.8',
             'ClashX Meta' => '1.3.5',
             'Hiddify' => '0.1.0',
-            'loon' => '637'
+            'loon' => '637',
+            'v2rayN' => '6.31',
+            'surge' => '2398'
         ];
         foreach($minSupportHy2ClinetVersionMap as $client => $minVersion){
             if (stripos($flag, $client) !== false && $this->versionCompare($version, $minVersion)) {
@@ -64,8 +66,7 @@ class ClientController extends Controller
             $region = $geo['region'] ?? null;
 
             // 获取服务器列表
-            $serverService = new ServerService();
-            $servers = $serverService->getAvailableServers($user);
+            $servers = ServerService::getAvailableServers($user);
             
             // 判断不满足，不满足的直接过滤掉
             $serversFiltered = collect($servers)->reject(function ($server) use ($typesArr, $filterArr, $region, $supportHy2){
@@ -84,7 +85,7 @@ class ClientController extends Controller
                     $rejectFlag = true;
                     foreach($filterArr as $filter){
                         if(stripos($server['name'],$filter) !== false 
-                        || in_array($filter, $server['tags'])
+                        || in_array($filter, $server['tags'] ?? [])
                         ) $rejectFlag = false;
                     }
                     if($rejectFlag) return true;

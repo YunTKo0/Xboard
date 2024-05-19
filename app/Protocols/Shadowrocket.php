@@ -154,12 +154,12 @@ class Shadowrocket
             switch($server['tls']){
                 case 1:
                     $config['tls'] = 1;
-                    if ($server['tlsSettings']) {
-                        $tlsSettings = $server['tlsSettings'];
+                    if ($server['tls_settings']) {
+                        $tlsSettings = $server['tls_settings'];
                         if (isset($tlsSettings['allowInsecure']) && !empty($tlsSettings['allowInsecure']))
                             $config['allowInsecure'] = (int)$tlsSettings['allowInsecure'];
-                        if (isset($tlsSettings['serverName']) && !empty($tlsSettings['serverName']))
-                            $config['peer'] = $tlsSettings['serverName'];
+                        if (isset($tlsSettings['server_name']) && !empty($tlsSettings['server_name']))
+                            $config['peer'] = $tlsSettings['server_name'];
                     }
                     break;
                 case 2:
@@ -209,7 +209,7 @@ class Shadowrocket
                     $config['path'] = $grpcSettings['serviceName'];
             }
             if (isset($tlsSettings)) {
-                $config['host'] = $tlsSettings['serverName'];
+                $config['host'] = $tlsSettings['server_name'];
             } else {
                 $config['host'] = $server['host'];
             }
@@ -272,6 +272,7 @@ class Shadowrocket
                     $params["obfsParam"] =$server['server_key'];
                 }
                 if($server['insecure']) $params['insecure'] = $server['insecure'];
+                if(isset($server['ports'])) $params['mport'] = $server['ports'];
                 $query = http_build_query($params);
                 $uri = "hysteria://{$server['host']}:{$server['port']}?{$query}#{$server['name']}";
                 $uri .= "\r\n";
@@ -284,6 +285,7 @@ class Shadowrocket
                 ];
                 if($server['is_obfs']) $params['obfs-password'] = $server['server_key'];
                 if($server['insecure']) $params['insecure'] = $server['insecure'];
+                if(isset($server['ports'])) $params['mport'] = $server['ports'];
                 $query = http_build_query($params);
                 $uri = "hysteria2://{$password}@{$server['host']}:{$server['port']}?{$query}#{$server['name']}";
                 $uri .= "\r\n";

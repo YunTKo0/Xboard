@@ -1,19 +1,12 @@
 ## aapanel部署指南
-> 本文将教你如何使用aapanel进行部署
+> 本文将教你如何使用aapanel进行部署  
+
+<span style="color:red">⚠️：Centos7有部分反馈部署失败，请尽量避免使用Centos7进行部署</span> 
 ### 安装
 1. 安装aaPanel 
 
-如果是Centos系统
 ```
-yum install -y wget && wget -O install.sh http://www.aapanel.com/script/install_6.0_en.sh && bash install.sh aapanel
-```
-如果是Ubuntu/Deepin系统
-```
-wget -O install.sh http://www.aapanel.com/script/install-ubuntu_6.0_en.sh && sudo bash install.sh aapanel
-``` 
-如果是Debian 系统
-```
-wget -O install.sh http://www.aapanel.com/script/install-ubuntu_6.0_en.sh && bash install.sh aapanel
+URL=https://www.aapanel.com/script/install_6.0_en.sh && if [ -f /usr/bin/curl ];then curl -ksSO "$URL" ;else wget --no-check-certificate -O install_6.0_en.sh "$URL";fi;bash install_6.0_en.sh aapanel
 ```
 
 安装完成后我们登陆 aaPanel 进行环境的安装。
@@ -83,9 +76,9 @@ location ~ .*\.(js|css)?$
 >Xboard的系统强依赖队列服务，正常使用XBoard必须启动队列服务。下面以aaPanel中supervisor服务来守护队列服务作为演示。  
 - 1️⃣. aaPanel 面板 > App Store > Tools  
 - 2️⃣. 找到Supervisor进行安装，安装完成后点击设置 > Add Daemon按照如下填写
-- - 在 Name 填写 Xboard  
+- - 在 Name 填写 `Xboard`
 - - 在 Run User 选择 www  
-- - 在 Run Dir 选择 站点目录 在 Start Command 填写 php artisan horizon 在 Processes 填写 1  
+- - 在 Run Dir 选择 站点目录 在 Start Command 填写 `php artisan horizon` 在 Processes 填写 1  
 
 >填写后点击Confirm添加即可运行。
 
@@ -94,7 +87,7 @@ aaPanel 面板 > Cron。
 - 在 Type of Task 选择 Shell Script
 - 在 Name of Task 填写 v2board
 - 在 Period 选择 N Minutes 1 Minute
-- 在 Script content 填写 php /www/wwwroot/路径/artisan schedule:run
+- 在 Script content 填写 `php /www/wwwroot/路径/artisan schedule:run`
 
 根据上述信息添加每1分钟执行一次的定时任务。
 
@@ -120,7 +113,7 @@ sed -i 's/^disable_functions[[:space:]]*=[[:space:]]*.*/disable_functions=header
 >填写后点击Confirm添加即可运行。
 
 3. 修改伪静态
-> 站点设置 > URL Rewrite(伪静态) 填入一下内容
+> 站点设置 > URL Rewrite(伪静态) 填入一下内容<span style="color:red">(覆盖前伪静态配置)</span>
 
 ```
 location ~* \.(jpg|jpeg|png|gif|js|css|svg|woff2|woff|ttf|eot|wasm|json|ico)$ {

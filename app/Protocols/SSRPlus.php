@@ -100,10 +100,10 @@ class SSRPlus
         if ($server['tls']) {
             switch($server['tls']){
                 case 1:
-                    if ($server['tlsSettings']) {
-                        $tlsSettings = $server['tlsSettings'];
-                        if (isset($tlsSettings['serverName']) && !empty($tlsSettings['serverName']))
-                            $config['sni'] = $tlsSettings['serverName'];
+                    if ($server['tls_settings']) {
+                        $tlsSettings = $server['tls_settings'];
+                        if (isset($tlsSettings['server_name']) && !empty($tlsSettings['server_name']))
+                            $config['sni'] = $tlsSettings['server_name'];
                             $config['security'] = "tls";
                     }
                     break;

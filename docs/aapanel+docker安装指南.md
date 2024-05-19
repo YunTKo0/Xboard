@@ -3,26 +3,22 @@
 
 ### 部署
 1. 安装aaPanel + 和docker 
-
-如果是Centos系统
 ```
-yum install -y wget && wget -O install.sh http://www.aapanel.com/script/install_6.0_en.sh && bash install.sh aapanel
+# 安装Docker
+curl -sSL https://get.docker.com | bash
+systemctl enable docker
+systemctl start docker
 ```
-如果是Ubuntu/Deepin系统
 ```
-wget -O install.sh http://www.aapanel.com/script/install-ubuntu_6.0_en.sh && sudo bash install.sh aapanel
-``` 
-如果是Debian 系统
-```
-wget -O install.sh http://www.aapanel.com/script/install-ubuntu_6.0_en.sh && bash install.sh aapanel
+# 安装宝塔
+URL=https://www.aapanel.com/script/install_6.0_en.sh && if [ -f /usr/bin/curl ];then curl -ksSO "$URL" ;else wget --no-check-certificate -O install_6.0_en.sh "$URL";fi;bash install_6.0_en.sh aapanel
 ```
 
-安装完成后我们登陆 aaPanel 进行环境的安装。
+安装完成后我们登陆 aaPanel 进行环境的安装。  
 2. 选择使用LNMP的环境安装方式勾选如下信息 
 ☑️ Nginx 任意版本  
 ☑️ MySQL 5.7  
 选择 Fast 快速编译后进行安装。  
->安装过程中点击 Docker 去安装一下Docker   
 
 <span style="color:yellow">⚠️ ：无需安装php 与 redis</span>
 
@@ -79,6 +75,7 @@ location ^~ / {
     proxy_set_header Server-Name $server_name;
     proxy_set_header Server-Addr $server_addr;
     proxy_set_header Server-Port $server_port;
+    proxy_cache off;
 }
 ```
 
@@ -89,6 +86,7 @@ location ^~ / {
 >通过SSH登录到服务器后访问站点路径如：/www/wwwroot/你的站点域名。  
 >以下命令都需要在站点目录进行执行。
 ```
+docker compose pull
 docker compose run -it --rm xboard sh update.sh
 ```
 2. 重启Xboard

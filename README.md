@@ -2,11 +2,8 @@
 Xboard是基于V2board二次开发，在性能上和功能上都有大部分增强的**面板
 
 # 免责声明
-本项目只是本人个人开发维护，本人不保证任何可用性，也不对使用本软件造成的任何后果负责。
-# 捐赠
-> 如果本项目帮助到了你，你可以对作者进行捐赠，感谢你的支持  
+本项目只是本人个人学习开发并维护，本人不保证任何可用性，也不对使用本软件造成的任何后果负责。
 
-TRC20： TLypStEWsVrj6Wz9mCxbXffqgt5yz3Y4XB
 # Xboard 特点 
 基于V2board 二次开发，增加了以下特性
 - 升级Laravel10
@@ -46,11 +43,10 @@ TRC20： TLypStEWsVrj6Wz9mCxbXffqgt5yz3Y4XB
 
 ## 安装 / 更新 / 回滚
 你可以点击查看下列方式的**安装、更新**步骤
+- [1panel 部署](./docs/1panel安装指南.md)
 - [Docker Compose 纯命令行快速部署](./docs/docker-compose安装指南.md)
-- [aapanel + Docker Compose](./docs/aapanel+docker安装指南.md)
+- [aapanel + Docker Compose (推荐)](./docs/aapanel+docker安装指南.md)
 - [aapanel 部署](./docs/aapanel安装指南.md)
-- [从aapanel迁移到1panel教程](./docs/从aapanel迁移到1panel教程.md)
-- [1panel 多开Xboard教程](./docs/多开Xboard教程.md)
 ### 从其他版本迁移
 #### 数据库迁移
 **根据你的版本查看对应的迁移指南进行迁移**

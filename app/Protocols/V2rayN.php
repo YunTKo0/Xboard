@@ -36,6 +36,9 @@ class V2rayN
             if ($item['type'] === 'trojan') {
                 $uri .= self::buildTrojan($user['uuid'], $item);
             }
+            if ($item['type'] === 'hysteria') {
+                $uri .= self::buildHysteria($user['uuid'], $item);
+            }
 
         }
         return base64_encode($uri);
@@ -125,10 +128,10 @@ class V2rayN
         if ($server['tls']) {
             switch($server['tls']){
                 case 1:
-                    if ($server['tlsSettings']) {
-                        $tlsSettings = $server['tlsSettings'];
-                        if (isset($tlsSettings['serverName']) && !empty($tlsSettings['serverName']))
-                            $config['sni'] = $tlsSettings['serverName'];
+                    if ($server['tls_settings']) {
+                        $tlsSettings = $server['tls_settings'];
+                        if (isset($tlsSettings['server_name']) && !empty($tlsSettings['server_name']))
+                            $config['sni'] = $tlsSettings['server_name'];
                             $config['security'] = "tls";
                     }
                     break;
@@ -196,6 +199,27 @@ class V2rayN
         $query = http_build_query($params);
         $uri = "trojan://{$password}@{$server['host']}:{$server['port']}?{$query}#{$name}";
         $uri .= "\r\n";
+        return $uri;
+    }
+
+    public static function buildHysteria($password, $server)
+    {
+        $name = rawurlencode($server['name']);
+        $params = [];
+        if ($server['server_name']) $params['sni'] = $server['server_name'];
+        $params['insecure'] = $server['insecure'] ? 1 : 0;
+        if($server['is_obfs']) {
+            $params['obfs'] = 'salamander';
+            $params['obfs-password'] = $server['server_key'];
+        }
+        $query = http_build_query($params);
+        if ($server['version'] == 2) {
+            $uri = "hysteria2://{$password}@{$server['host']}:{$server['port']}?{$query}#{$name}";
+            $uri .= "\r\n";
+        } else {
+            // V2rayN似乎不支持v1, 返回空
+            $uri = "";
+        }
         return $uri;
     }
 
